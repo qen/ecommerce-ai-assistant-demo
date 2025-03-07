@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby "3.3.4"
+ruby "3.3.7"
 
 source "https://rubygems.org"
 
@@ -16,3 +16,6 @@ gem 'langchainrb', "0.19.0"
 gem 'sinatra', '~> 3.1.0'
 gem 'thin', '~> 1.8.2'
 gem 'rack', '~> 2.2'
+gem 'awesome_print'
+gem 'pry'
+gem 'pry-stack_explorer' # Enable pry in console automatically

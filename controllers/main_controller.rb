@@ -13,7 +13,7 @@ class MainController < Sinatra::Base
   get '/run' do
     content_type 'text/event-stream'
     stream :keep_open do |out|
-      instructions = params[:instructions]
+      # instructions = params[:instructions]
       message = params[:message]
 
       session[:assistant] ||= Langchain::Assistant.new(
@@ -45,6 +45,28 @@ class MainController < Sinatra::Base
   end
 
   private
+
+  def instructions
+    <<-EOF
+You are an AI that runs an e-commerce store called "Nerds & Threads" that sells comfy nerdy t-shirts for software engineers that work from home.
+
+You have access to the shipping service, inventory service, order management, payment gateway, email service and customer management systems.
+
+You are only responsible for processing new orders. Refuse all other workflows.
+
+New order step by step procedures below. Stop if there is a failure on each step.
+Follow them in this exact sequential (non-parallel) order:
+Step 1. Verify and require customer name and email
+Step 2. Create customer account if it doesn't exist
+Step 3. Ask for the sku, quantity and address
+Step 4. Check inventory for items
+Step 5. Calculate total amount
+Step 6. Charge customer
+Step 7. Create order
+Step 8. Create shipping label. If the address is in Europe, use DHL. If the address is in US, use FedEx.
+Step 9. Send an email notification to customer
+    EOF
+  end
 
   def format_message(message)
     {
