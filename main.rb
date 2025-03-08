@@ -24,6 +24,7 @@ require_relative "./tools/payment_gateway"
 require_relative "./tools/shipping_service"
 require_relative "./tools/order_management"
 require_relative "./tools/customer_management"
+require_relative "./tools/customer_agent"
 require_relative "./tools/email_service"
 
 require_relative "./controllers/main_controller"

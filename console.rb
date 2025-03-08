@@ -3,7 +3,9 @@ require_relative "./main.rb"
 instructions = <<-EOF
 You are an AI that runs an e-commerce store called "Nerds & Threads" that sells comfy nerdy t-shirts for software engineers that work from home.
 
-You have access to the shipping service, inventory service, order management, payment gateway, email service and customer management systems.
+You have access to the shipping service, inventory service, order management, payment gateway, email service.
+
+You are also an AI supervisor to customer agent.
 
 You are only responsible for processing new orders. Refuse all other workflows.
 
@@ -31,7 +33,7 @@ def format_message(message)
 end
 
 def format_content(message)
-  message.content.empty? ? message.tool_calls.first.dig("function") : message.content
+  message.content.empty? ? message.tool_calls.first&.dig("function") : message.content
 end
 
 def format_role(role)
@@ -58,7 +60,8 @@ llm = Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"], default_options
     ShippingService.new,
     PaymentGateway.new,
     OrderManagement.new,
-    CustomerManagement.new,
+    # CustomerManagement.new,
+    CustomerAgent.new,
     EmailService.new,
     Langchain::Tool::Database.new(connection_string: "sqlite://#{ENV["DATABASE_NAME"]}")
   ],
@@ -69,26 +72,6 @@ llm = Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"], default_options
 
 def assistant
   @assistant
-end
-
-def update_assistant_instructions(instructions)
-  @assistant = Langchain::Assistant.new(
-    instructions: instructions,
-    llm: llm,
-    parallel_tool_calls: false,
-    tools: [
-      InventoryManagement.new,
-      ShippingService.new,
-      PaymentGateway.new,
-      OrderManagement.new,
-      CustomerManagement.new,
-      EmailService.new,
-      Langchain::Tool::Database.new(connection_string: "sqlite://#{ENV["DATABASE_NAME"]}")
-    ],
-    # add_message_callback: Proc.new { |message|
-    #   puts JSON.generate(format_message(message))
-    # }
-  )
 end
 
 @last_message_object_id = 0
