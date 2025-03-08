@@ -62,9 +62,9 @@ llm = Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"], default_options
     EmailService.new,
     Langchain::Tool::Database.new(connection_string: "sqlite://#{ENV["DATABASE_NAME"]}")
   ],
-  add_message_callback: Proc.new { |message|
-    puts JSON.generate(format_message(message))
-  }
+  # add_message_callback: Proc.new { |message|
+  #   puts JSON.generate(format_message(message))
+  # }
 )
 
 def assistant
@@ -85,9 +85,9 @@ def update_assistant_instructions(instructions)
       EmailService.new,
       Langchain::Tool::Database.new(connection_string: "sqlite://#{ENV["DATABASE_NAME"]}")
     ],
-    add_message_callback: Proc.new { |message|
-      puts JSON.generate(format_message(message))
-    }
+    # add_message_callback: Proc.new { |message|
+    #   puts JSON.generate(format_message(message))
+    # }
   )
 end
 
