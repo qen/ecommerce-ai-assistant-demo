@@ -33,7 +33,7 @@ def format_message(message)
 end
 
 def format_content(message)
-  message.content.empty? ? message.tool_calls.first&.dig("function") : message.content
+  message.content.empty? ? message.tool_calls&.first.dig("function") : message.content
 end
 
 def format_role(role)
