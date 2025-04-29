@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frzen_string_literal: true
 
 ruby "3.3.7"
 
@@ -19,3 +19,4 @@ gem 'rack', '~> 2.2'
 gem 'awesome_print'
 gem 'pry'
 gem 'pry-stack_explorer' # Enable pry in console automatically
+gem 'aws-sdk-bedrock'
